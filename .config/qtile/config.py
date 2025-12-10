@@ -39,8 +39,8 @@ def startup_once():
 @hook.subscribe.startup
 def startup():
     # foreground call
-    subprocess.call(["xsetroot", "-cursor_name", "left_ptr"])
-    subprocess.call(["xmodmap", "-e", "keysym Menu = Super_R"])
+    subprocess.run(["xsetroot", "-cursor_name", "left_ptr"])
+    subprocess.run(["xmodmap", "-e", "keysym Menu = Super_R"])
 
 
 # run every new window spawned
