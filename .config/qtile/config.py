@@ -5,7 +5,7 @@ from libqtile import hook
 # custom lib
 from groups import GROUPS
 from keybinds import KEYS, MOUSE_KEYS
-from layouts import LAYOUTS
+from layouts import LAYOUTS, FLOATING_LAYOUT
 from screens import SCREEN, WIDGET_DEFAULT
 
 # init qtile config
@@ -15,7 +15,7 @@ focus_on_window_activation = "smart"
 reconfigure_screen = True
 floats_kept_above = True
 cursor_warp = False
-auto_minimize = False
+auto_minimize = True
 wmname = "LG3D"  # hack old java gui app
 
 # custom qtile config
@@ -24,6 +24,7 @@ mouse = MOUSE_KEYS
 layouts = LAYOUTS
 screens = SCREEN
 groups = GROUPS
+floating_layout = FLOATING_LAYOUT
 widget_defaults = WIDGET_DEFAULT
 extension_defaults = WIDGET_DEFAULT
 
@@ -45,7 +46,23 @@ def startup():
 
 # run every new window spawned
 @hook.subscribe.client_new
-def dialogs(window):
+def floating_window(window):
     # check is dialog like type to floating window
     if window.window.get_wm_type() == "dialog" or window.window.get_wm_transient_for():
         window.floating = True
+
+# run every float window detected
+@hook.subscribe.float_change
+def center_floating_window(window):
+    if window.floating:
+        # get screen
+        screen = window.qtile.current_screen
+        # Center calculation
+        x = screen.x + (screen.width - window.width) // 2
+        y = screen.y + (screen.height - window.height) // 2
+        # Apply
+        window.x = x
+        window.y = y
+        # Optional: Also set size if needed
+        window.width = min(window.width, screen.width - 100)
+        window.height = min(window.height, screen.height - 100)
