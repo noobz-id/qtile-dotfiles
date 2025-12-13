@@ -12,7 +12,7 @@ _default = {
 # export
 LAYOUTS = [
     layout.MonadTall(**_default),
-    layout.Max(**_default),
+    layout.Matrix(**_default),
 ]
 
 FLOATING_LAYOUT = layout.Floating(

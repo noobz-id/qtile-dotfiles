@@ -99,6 +99,9 @@ _action_keys = [
     Key([_mod], _right, lazy.layout.right(), desc="switch window right"),
     Key([_mod], _down, lazy.layout.down(), desc="switch window down"),
     Key([_mod], _up, lazy.layout.up(), desc="switch window up"),
+    Key([_mod], "f", lazy.window.toggle_floating(), desc="floating window"),
+    Key([_mod], "minus", lazy.screen.prev_group(), desc="switch to prev group"),
+    Key([_mod], "equal", lazy.screen.next_group(), desc="switch to next group"),
     Key(
         [_mod], _space, lazy.window.toggle_fullscreen(), desc="toggle window fullscreen"
     ),
@@ -108,12 +111,9 @@ _action_keys = [
     ),
     Key(_mod_shift, _down, lazy.layout.shuffle_down(), desc="shuffle window to down"),
     Key(_mod_shift, _up, lazy.layout.shuffle_up(), desc="shuffle window to up"),
-    Key(_mod_shift, "f", lazy.layout.flip(), desc="flip window"),
-    Key([_mod], "minus", lazy.screen.prev_group(), desc="switch to prev group"),
-    Key([_mod], "equal", lazy.screen.next_group(), desc="switch to next group"),
     Key(_mod_shift, "minus", window_to_prev_group(), desc="move window to prev group"),
     Key(_mod_shift, "equal", window_to_next_group(), desc="move window to next group"),
-    Key(_mod_shift, _space, lazy.layout.normalize(), desc="reset all window size"),
+    Key(_mod_shift, _space, lazy.next_layout(), desc="change to next layout"),
     Key(_mod_shift, "c", lazy.window.kill(), desc="kill focused window"),
     Key(_mod_shift, "a", kill_all_windows(), desc="kill all windows"),
     Key(_mod_ctrl, "q", lazy.shutdown(), desc="kill qtile or logout"),
