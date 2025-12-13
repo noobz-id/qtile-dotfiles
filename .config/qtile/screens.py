@@ -68,7 +68,7 @@ _top_bar_widgets = [
     ),
     _separator(),
     widget.Clock(
-        format="%d-%m-%y %I:%M %p",
+        format="%d-%m-%Y %I:%M %p",
         background=THEME.BACKGROUND,
         foreground=THEME.BLUE,
     ),

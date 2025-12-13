@@ -31,14 +31,14 @@ extension_defaults = WIDGET_DEFAULT
 
 # run once at start
 @hook.subscribe.startup_once
-def startup_once():
+def on_init_once():
     # background call
     subprocess.Popen(["lxsession"])
 
 
 # run every start including restart
 @hook.subscribe.startup
-def startup():
+def on_start():
     # foreground call
     subprocess.run(["xsetroot", "-cursor_name", "left_ptr"])
     subprocess.run(["xmodmap", "-e", "keysym Menu = Super_R"])
@@ -46,14 +46,16 @@ def startup():
 
 # run every new window spawned
 @hook.subscribe.client_new
-def floating_window(window):
+def on_spawn(window):
     # check is dialog like type to floating window
     if window.window.get_wm_type() == "dialog" or window.window.get_wm_transient_for():
+        # set to floating
         window.floating = True
 
 # run every float window detected
 @hook.subscribe.float_change
-def center_floating_window(window):
+def on_floating_changed(window):
+    # check is floating window
     if window.floating:
         # get screen
         screen = window.qtile.current_screen
