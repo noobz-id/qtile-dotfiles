@@ -16,6 +16,7 @@ LAYOUTS = [
 ]
 
 FLOATING_LAYOUT = layout.Floating(
+    float_rules=[*layout.Floating.default_float_rules],
     border_focus=THEME.accent(),
     border_normal=THEME.BACKGROUND,
     border_width=2

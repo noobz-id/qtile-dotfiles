@@ -52,19 +52,4 @@ def on_spawn(window):
         # set to floating
         window.floating = True
 
-# run every float window detected
-@hook.subscribe.float_change
-def on_floating_changed(window):
-    # check is floating window
-    if window.floating:
-        # get screen
-        screen = window.qtile.current_screen
-        # Center calculation
-        x = screen.x + (screen.width - window.width) // 2
-        y = screen.y + (screen.height - window.height) // 2
-        # Apply
-        window.x = x
-        window.y = y
-        # Optional: Also set size if needed
-        window.width = min(window.width, screen.width - 100)
-        window.height = min(window.height, screen.height - 100)
+
