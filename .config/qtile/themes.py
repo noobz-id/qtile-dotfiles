@@ -4,16 +4,16 @@ from abc import ABC, abstractmethod
 # Base theme
 class BaseTheme(ABC):
     # color map
-    BACKGROUND = ""
-    FOREGROUND = ""
-    BLACK = ""
-    RED = ""
-    GREEN = ""
-    YELLOW = ""
-    BLUE = ""
-    MAGENTA = ""
-    CYAN = ""
-    WHITE = ""
+    BACKGROUND: str
+    FOREGROUND: str
+    BLACK: str
+    RED: str
+    GREEN: str
+    YELLOW: str
+    BLUE: str
+    MAGENTA: str
+    CYAN: str
+    WHITE: str
 
     @classmethod
     @abstractmethod

@@ -8,7 +8,7 @@ from keybinds import KEYS, MOUSE_KEYS
 from layouts import LAYOUTS, FLOATING_LAYOUT
 from screens import SCREEN, WIDGET_DEFAULT
 
-# init qtile config
+# option qtile config
 follow_mouse_focus = True
 auto_full_screen = True
 focus_on_window_activation = "smart"
@@ -31,7 +31,7 @@ extension_defaults = WIDGET_DEFAULT
 
 # run once at start
 @hook.subscribe.startup_once
-def on_init_once():
+def on_init():
     # background call
     subprocess.Popen(["lxsession"])
 

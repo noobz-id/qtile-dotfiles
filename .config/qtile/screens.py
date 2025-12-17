@@ -20,7 +20,6 @@ _top_bar_widgets = [
         active=THEME.MAGENTA,
         inactive=THEME.BLACK,
         borderWidth=0,
-        rounded=True,
         padding_x=0,
         padding_y=0,
         margin_x=0,
