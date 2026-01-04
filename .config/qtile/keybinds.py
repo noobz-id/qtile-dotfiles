@@ -37,7 +37,7 @@ def window_to_prev_group(qtile):
     prev_idx = (cur_idx - 1) % len(qtile.groups)
     group = qtile.groups[prev_idx].name
     # exec
-    qtile.current_window.togroup(group, switch_group=True)
+    qtile.current_window.togroup(group, switch_group=False)
 
 
 # move window to next group
@@ -47,7 +47,7 @@ def window_to_next_group(qtile):
     next_idx = (cur_idx + 1) % len(qtile.groups)
     group = qtile.groups[next_idx].name
     # exec
-    qtile.current_window.togroup(group, switch_group=True)
+    qtile.current_window.togroup(group, switch_group=False)
 
 
 # kill all active windows
@@ -157,7 +157,7 @@ _group_keys = [
         Key(
             _mod_shift,
             group.name,
-            lazy.window.togroup(group.name, switch_group=True),
+            lazy.window.togroup(group.name, switch_group=False),
             desc=f"move focused window to group {group.name}",
         ),
     )

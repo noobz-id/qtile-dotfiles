@@ -2,7 +2,7 @@ from libqtile import bar, widget
 from libqtile.config import Screen
 
 # custom lib
-from themes import THEME
+from themes import THEME, FONT
 
 
 def _separator():
@@ -47,7 +47,7 @@ _top_bar_widgets = [
     _separator(),
     widget.Memory(
         measure_mem="G",
-        format="mem: {MemUsed:.1f}/{MemTotal:.1f}{mm}",
+        format="mem: {MemUsed:.1f}/{MemTotal:.1f}GB",
         background=THEME.BACKGROUND,
         foreground=THEME.YELLOW,
     ),
@@ -58,7 +58,7 @@ _top_bar_widgets = [
         empty_char="emp",
         full_char="full",
         not_charging_char="acp",
-        format="{char}: {percent:2.0%}({watt:.2f}w)",
+        format="{char}: {percent:2.0%}",
         battery=0,
         background=THEME.BACKGROUND,
         foreground=THEME.GREEN,
@@ -67,7 +67,7 @@ _top_bar_widgets = [
     ),
     _separator(),
     widget.Clock(
-        format="%d-%m-%Y %I:%M %p",
+        format="%a %d-%b-%Y %I:%M %p",
         background=THEME.BACKGROUND,
         foreground=THEME.BLUE,
     ),
@@ -79,7 +79,7 @@ _top_bar_widgets = [
 
 # default widget font size
 WIDGET_DEFAULT = dict(
-    font="Ubuntu Bold",
+    font=FONT,
     fontsize=12,
     padding=3,
 )

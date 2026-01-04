@@ -40,5 +40,8 @@ class _OneDarkTheme(BaseTheme):
 
 
 # export
-# set theme here
+FONT: str = "Ubuntu Bold"
+
 THEME: BaseTheme = _OneDarkTheme()
+
+
