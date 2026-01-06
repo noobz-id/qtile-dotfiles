@@ -1,8 +1,5 @@
-import subprocess
-
-from libqtile import hook
-
 # custom lib
+import hooks
 from groups import GROUPS
 from keybinds import KEYS, MOUSE_KEYS
 from layouts import LAYOUTS, FLOATING_LAYOUT
@@ -32,29 +29,4 @@ groups = GROUPS
 floating_layout = FLOATING_LAYOUT
 widget_defaults = WIDGET_DEFAULT
 extension_defaults = WIDGET_DEFAULT
-
-
-# run once at start
-@hook.subscribe.startup_once
-def on_init():
-    # background call
-    subprocess.Popen(["lxsession"])
-
-
-# run every start including restart
-@hook.subscribe.startup
-def on_start():
-    # foreground call
-    subprocess.run(["xsetroot", "-cursor_name", "left_ptr"])
-    subprocess.run(["xmodmap", "-e", "keysym Menu = Super_R"])
-
-
-# run every new window spawned
-@hook.subscribe.client_new
-def on_spawn(window):
-    # check is dialog like type to floating window
-    if window.window.get_wm_type() == "dialog" or window.window.get_wm_transient_for():
-        # set to floating
-        window.floating = True
-
 
