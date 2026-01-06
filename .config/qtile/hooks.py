@@ -50,7 +50,7 @@ def on_group_changed():
                 v_align = "middle",
                 font = FONT,
                 fontsize = 80,
-                foreground = THEME.GREEN,
+                foreground = THEME.FOREGROUND,
             ),
         ],
         width = 100,
