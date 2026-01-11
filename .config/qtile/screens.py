@@ -19,9 +19,7 @@ _top_bar_widgets = [
         this_current_screen_border=THEME.GREEN,
         active=THEME.MAGENTA,
         inactive=THEME.BLACK,
-        borderWidth=0,
         padding_x=0,
-        padding_y=0,
         margin_x=0,
     ),
     _separator(),
@@ -81,10 +79,12 @@ _top_bar_widgets = [
 WIDGET_DEFAULT = dict(
     font=FONT,
     fontsize=12,
-    padding=3,
+    padding=2,
 )
 
 # main screen, currently i have 1 screen only
 SCREEN = [
     Screen(top=bar.Bar(widgets=_top_bar_widgets, size=20, background=THEME.BACKGROUND))
 ]
+
+

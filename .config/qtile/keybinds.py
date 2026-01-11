@@ -125,6 +125,7 @@ _spawn_keys = [
     Key(
         [_mod], "p", lazy.spawn("rofi -show drun -show-icons"), desc="launch rofi menu"
     ),
+    Key([_mod], "e", lazy.spawn("rofi -show emoji -modi emoji"), desc="launch rofi emoji"),
     Key(_mod_shift, "p", lazy.spawn("rofi-pass"), desc="launch rofi password manager"),
     Key(
         [_mod],
@@ -181,3 +182,5 @@ _mouse_keys = [
 # export
 KEYS = _hardware_keys + _action_keys + _spawn_keys + _group_keys
 MOUSE_KEYS = _mouse_keys
+
+

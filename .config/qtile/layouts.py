@@ -1,5 +1,6 @@
 from libqtile import layout
 
+# custom lib
 from themes import THEME
 
 _default = {
@@ -21,3 +22,5 @@ FLOATING_LAYOUT = layout.Floating(
     border_normal=THEME.BACKGROUND,
     border_width=2
 )
+
+
