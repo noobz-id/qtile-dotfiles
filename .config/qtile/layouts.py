@@ -12,11 +12,12 @@ _default = {
 
 # export
 LAYOUTS = [
-    layout.MonadTall(**_default),
-    layout.Matrix(**_default),
+    layout.MonadTall(name="T", **_default),
+    layout.Matrix(name="M", **_default),
 ]
 
 FLOATING_LAYOUT = layout.Floating(
+    name="F",
     float_rules=[*layout.Floating.default_float_rules],
     border_focus=THEME.accent(),
     border_normal=THEME.BACKGROUND,
