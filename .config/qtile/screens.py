@@ -2,6 +2,7 @@ from libqtile import bar, widget
 from libqtile.config import Screen
 
 # custom lib
+import network
 from themes import THEME, FONT
 
 
@@ -31,11 +32,17 @@ _top_bar_widgets = [
     #
     # Right panel
     #
-    widget.Net(
-        format="net: {up:.0f}{up_suffix}/{down:.0f}{down_suffix}",
+    widget.GenPollText(
+        func=network.active_network_meter,
+        update_interval=1,
         background=THEME.BACKGROUND,
         foreground=THEME.WHITE,
     ),
+    #widget.Net(
+    #    format="net: {up:.0f}{up_suffix}/{down:.0f}{down_suffix}",
+    #    background=THEME.BACKGROUND,
+    #    foreground=THEME.WHITE,
+    #),
     _separator(),
     widget.CPU(
         format="cpu: {load_percent:.0f}%",
