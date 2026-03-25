@@ -1,5 +1,5 @@
 # lib
-import subprocess
+import socket
 import time
 import psutil
 
@@ -9,7 +9,7 @@ from libqtile.widget import base
 class DynamicNet(base.InLoopPollText):
 
     defaults = [
-       ("update_interval", 1.0, "the update interval")
+       ("update_interval", 1.0, "The update interval in seconds")
     ]
 
     def __init__(self, **config):
@@ -20,6 +20,17 @@ class DynamicNet(base.InLoopPollText):
         self._last_recv = 0
         self._last_sent = 0
         self._last_time = time.time()
+        # setup socket 
+        self._socket = None
+        self._create_socket()
+
+    def _create_socket(self):
+        # close first
+        try: self._socket.close()
+        except: pass
+        # create new
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self._socket.settimeout(0.2)
 
     def _bytes_format(self, size):
         # converter
@@ -32,14 +43,31 @@ class DynamicNet(base.InLoopPollText):
         # fallback
         return f"{size:.1f}T"
 
+    def _active_interface(self):
+        try:
+            # connect(less) udp
+            self._socket.connect(("8.8.8.8", 53))
+            # get local ip
+            local_ip = self._socket.getsockname()[0]
+            # find interface name
+            for name, addrs in psutil.net_if_addrs().items():
+                # matching address
+                if any(addr.address == local_ip for addr in addrs):
+                    # ok
+                    return name
+            # interface not found
+            return None
+        except (socket.error, OSError):
+            # re-create socket (iterface change)
+            self._create_socket()
+            # error
+            raise ConnectionError
+
     def poll(self):
         # this is main loop called by qtile
         try:
-            # get active interface
-            interface = subprocess.check_output(
-                "ip route get 8.8.8.8 2>/dev/null | grep -Po '(?<=dev )\\S+'",
-                shell=True
-            ).decode("utf-8").strip()
+            # get interface
+            interface = self._active_interface()
             # get interface list
             stats = psutil.net_io_counters(pernic=True).get(interface)
             # check timer
@@ -61,8 +89,15 @@ class DynamicNet(base.InLoopPollText):
             # ok
             return f"{interface}: {up_fmt}/{down_fmt}"
         except Exception:
-            # fail may offline
+            # reset counter (prevent spike at back-online)
+            self._last_recv = 0
+            self._last_sent = 0
+            #
             return "offline"
 
-
-
+    def finalize(self):
+        # clean up resource called by qtile
+        try: self._socket.close()
+        except: pass
+        # clean up
+        base.InLoopPollText.finalize(self)
