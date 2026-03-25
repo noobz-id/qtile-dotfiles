@@ -1,5 +1,4 @@
 # lib
-import socket
 import time
 import psutil
 
@@ -20,17 +19,6 @@ class DynamicNet(base.InLoopPollText):
         self._last_recv = 0
         self._last_sent = 0
         self._last_time = time.time()
-        # setup socket 
-        self._socket = None
-        self._create_socket()
-
-    def _create_socket(self):
-        # close first
-        try: self._socket.close()
-        except: pass
-        # create new
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self._socket.settimeout(0.2)
 
     def _bytes_format(self, size):
         # converter
@@ -45,23 +33,19 @@ class DynamicNet(base.InLoopPollText):
 
     def _active_interface(self):
         try:
-            # connect(less) udp
-            self._socket.connect(("8.8.8.8", 53))
-            # get local ip
-            local_ip = self._socket.getsockname()[0]
-            # find interface name
-            for name, addrs in psutil.net_if_addrs().items():
-                # matching address
-                if any(addr.address == local_ip for addr in addrs):
-                    # ok
-                    return name
-            # interface not found
-            return None
-        except (socket.error, OSError):
-            # re-create socket (iterface change)
-            self._create_socket()
-            # error
-            raise ConnectionError
+            # read interface route
+            with open("/proc/net/route", "r") as f:
+                for line in f:
+                    parts = line.split()
+                    if len(parts) < 2 or parts[1] == 'Destination':
+                        continue
+                    # check is primary route
+                    if parts[1] == '00000000':
+                        # interface name
+                        return parts[0]
+        except: pass
+        #
+        return None
 
     def poll(self):
         # this is main loop called by qtile
@@ -95,9 +79,3 @@ class DynamicNet(base.InLoopPollText):
             #
             return "offline"
 
-    def finalize(self):
-        # clean up resource called by qtile
-        try: self._socket.close()
-        except: pass
-        # clean up
-        base.InLoopPollText.finalize(self)
