@@ -32,19 +32,17 @@ class DynamicNet(base.InLoopPollText):
         return f"{size:.1f}T"
 
     def _active_interface(self):
-        try:
-            # read interface route
-            with open("/proc/net/route", "r") as f:
-                for line in f:
-                    parts = line.split()
-                    if len(parts) < 2 or parts[1] == 'Destination':
-                        continue
-                    # check is primary route
-                    if parts[1] == '00000000':
-                        # interface name
-                        return parts[0]
-        except: pass
-        #
+        # read interface route
+        with open("/proc/net/route", "r") as f:
+            for line in f:
+                parts = line.split()
+                if len(parts) < 2 or parts[1] == 'Destination':
+                    continue
+                # check is primary route
+                if parts[1] == '00000000':
+                    # interface name
+                    return parts[0]
+        # not exist
         return None
 
     def poll(self):
